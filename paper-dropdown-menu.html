@@ -294,6 +294,12 @@ respectively.
           // still in a `DocumentFragment`. This has the effect of causing
           // handlers not to fire. So, we double check this value on attached:
           var contentElement = this.contentElement;
+          // Flush to ensure the contentElement has the right assignedSlot and
+          // its selectedItem is up to date.
+          //TODO(valdrin) remove this when webcomponents/shadydom#56 is solved.
+          if (contentElement && window.ShadyDOM) {
+            window.ShadyDOM.flush();
+          }
           if (contentElement && contentElement.selectedItem) {
             this._setSelectedItem(contentElement.selectedItem);
           }
@@ -303,13 +309,7 @@ respectively.
          * The content element that is contained by the dropdown menu, if any.
          */
         get contentElement() {
-          // Ensure it is an Element (See Polymer/polymer#4047).
-          var nodes = Polymer.dom(this.$.content).getEffectiveChildNodes();
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeType === Node.ELEMENT_NODE) {
-              return nodes[i];
-            }
-          }
+          return Polymer.dom(this).children[0];
         },
 
         /**
@@ -366,32 +366,11 @@ respectively.
           if (!selectedItem) {
             value = '';
           } else {
-            value = selectedItem.label || selectedItem.getAttribute('label') || this._getTextContent(selectedItem);
+            value = selectedItem.label || selectedItem.getAttribute('label') || selectedItem.textContent.trim();
           }
 
           this._setValue(value);
           this._setSelectedItemLabel(value);
-        },
-
-        _getLocalTextContent: function(root) {
-          var result = "";
-          var nodes = root.querySelectorAll("*:not(style)");
-          for (var i = 0; i < nodes.length; i++) {
-            result += nodes[i].textContent.trim();
-          }
-          return result;
-        },
-
-        _getTextContent: function(el) {
-          if (el.root) {
-            var content = this._getLocalTextContent(el.root);
-            var effectiveChildren = Polymer.dom(el).getEffectiveChildNodes();
-            for (var i = 0; i < effectiveChildren.length; i++) {
-              content += this._getTextContent(effectiveChildren[i]);
-            }
-            return content;
-          }
-          return el.textContent.trim();
         },
 
         /**
