@@ -98,8 +98,10 @@ respectively.
       on-iron-deselect="_onIronDeselect"
       opened="{{opened}}"
       close-on-activate
-      allow-outside-scroll="[[allowOutsideScroll]]">
-      <div slot="dropdown-trigger">
+      allow-outside-scroll="[[allowOutsideScroll]]"
+      restore-focus-on-close="[[restoreFocusOnClose]]">
+      <!-- support hybrid mode: user might be using paper-menu-button 1.x which distributes via <content> -->
+      <div class="dropdown-trigger" slot="dropdown-trigger">
         <paper-ripple></paper-ripple>
         <!-- paper-input has type="text" for a11y, do not remove -->
         <paper-input
@@ -113,7 +115,8 @@ respectively.
           always-float-label="[[alwaysFloatLabel]]"
           no-label-float="[[noLabelFloat]]"
           label="[[label]]">
-          <iron-icon icon="paper-dropdown-menu:arrow-drop-down" suffix></iron-icon>
+          <!-- support hybrid mode: user might be using paper-input 1.x which distributes via <content> -->
+          <iron-icon icon="paper-dropdown-menu:arrow-drop-down" suffix slot="suffix"></iron-icon>
         </paper-input>
       </div>
       <slot id="content"></slot>
@@ -267,6 +270,14 @@ respectively.
           dynamicAlign: {
             type: Boolean
           },
+            
+          /**
+           * Whether focus should be restored to the dropdown when the menu closes.
+           */
+          restoreFocusOnClose: {
+            type: Boolean,
+            value: true
+          },
         },
 
         listeners: {
@@ -294,12 +305,6 @@ respectively.
           // still in a `DocumentFragment`. This has the effect of causing
           // handlers not to fire. So, we double check this value on attached:
           var contentElement = this.contentElement;
-          // Flush to ensure the contentElement has the right assignedSlot and
-          // its selectedItem is up to date.
-          //TODO(valdrin) remove this when webcomponents/shadydom#56 is solved.
-          if (contentElement && window.ShadyDOM) {
-            window.ShadyDOM.flush();
-          }
           if (contentElement && contentElement.selectedItem) {
             this._setSelectedItem(contentElement.selectedItem);
           }
@@ -309,7 +314,12 @@ respectively.
          * The content element that is contained by the dropdown menu, if any.
          */
         get contentElement() {
-          return Polymer.dom(this).children[0];
+          var nodes = Polymer.dom(this.$.content).getDistributedNodes();
+          var i = 0;
+          while (nodes[i] && nodes[i].nodeType !== Node.ELEMENT_NODE) {
+            i++;
+          }
+          return nodes[i];
         },
 
         /**
