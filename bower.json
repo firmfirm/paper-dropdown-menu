@@ -25,7 +25,7 @@
     "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#2.0-preview",
     "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#2.0-preview",
     "iron-icon": "PolymerElements/iron-icon#2.0-preview",
-    "iron-iconset-svg": "polymerelements/iron-iconset-svg#2.0-preview",
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#2.0-preview",
     "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#2.0-preview",
     "paper-behaviors": "PolymerElements/paper-behaviors#2.0-preview",
     "paper-input": "PolymerElements/paper-input#2.0-preview",
@@ -41,6 +41,7 @@
     "paper-listbox": "PolymerElements/paper-listbox#2.0-preview",
     "paper-tabs": "PolymerElements/paper-tabs#2.0-preview",
     "web-component-tester": "^6.0.0-prerelease.6",
+    "web-animations-js": "web-animations/web-animations-js#^2.2",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.1"
   },
   "variants": {
@@ -50,7 +51,7 @@
         "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#^1.0.0",
         "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#^1.0.0",
         "iron-icon": "PolymerElements/iron-icon#^1.0.0",
-        "iron-iconset-svg": "polymerelements/iron-iconset-svg#^1.0.0",
+        "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^1.0.0",
         "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#^1.0.0",
         "paper-behaviors": "PolymerElements/paper-behaviors#^1.0.0",
         "paper-input": "PolymerElements/paper-input#^1.0.9",
@@ -66,6 +67,7 @@
         "paper-listbox": "PolymerElements/paper-listbox#^1.0.0",
         "paper-tabs": "PolymerElements/paper-tabs#^1.0.0",
         "web-component-tester": "^4.0.0",
+        "web-animations-js": "web-animations/web-animations-js#^2.2",
         "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
       }
     }
